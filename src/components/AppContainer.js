@@ -6,7 +6,7 @@ import { hot } from 'react-hot-loader';
 import { fetchCategories } from '../actions/categoriesActions';
 
 import Routes from './Routes';
-import DevTools from './DevTools';
+// import DevTools from './DevTools';
 
 class AppContainer extends React.Component {
   static propTypes = {
@@ -21,7 +21,7 @@ class AppContainer extends React.Component {
     return (
       <div>
         <Routes/>
-        <DevTools />
+        {/*<DevTools />*/}
       </div>
     );
   }
