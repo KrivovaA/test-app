@@ -6,7 +6,7 @@ import {
 import {connect} from 'react-redux';
 
 import Main from './main/Main';
-import Category from './categories/Category';
+import CategoryContainer from './categories/CategoryContainer';
 import Menu from './menu/Menu';
 
 import Grid from '@material-ui/core/Grid';
@@ -27,7 +27,7 @@ const Routes = (props) => (
                 key={`route-${category}`}
                 path={`/${category}`}
                 render={props => {
-                  return <Category category={category} />
+                  return <CategoryContainer category={category} />
                 }}
               />
             );

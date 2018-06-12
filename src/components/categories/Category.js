@@ -21,7 +21,10 @@ const styles = theme => ({
 class Category extends React.Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
-    category: PropTypes.string
+    category: PropTypes.string,
+    width: PropTypes.string,
+    height: PropTypes.string,
+    effect: PropTypes.string
   };
 
   constructor(props) {
@@ -33,23 +36,12 @@ class Category extends React.Component {
     }
   }
 
-  handleChange = (event) => {
-    console.log(event.target);
-    this.setState({[event.target.name]: event.target.value});
-  };
-
-  handleClick = (event) => {
-    this.setState({ effect: event.target.value });
-  };
-
   render() {
-    const { category, classes } = this.props;
-    const { width, height, effect } = this.state;
+    const { category, classes, width, height, effect } = this.props;
     const image = effect === 'without effects' ?
       <img src={`http://placeimg.com/${width}/${height}/${category}`} /> :
       <img src={`http://placeimg.com/${width}/${height}/${category}/${effect}`} />;
 
-      // console.log(this.state);
 
     return (
       <Grid direction='column' container justify='center' alignItems='center'>
@@ -60,19 +52,21 @@ class Category extends React.Component {
         </Paper>
         <Grid>
           <TextField
+            error={Number(this.props.width) <= 10}
             id="width"
             label="width"
             name='width'
-            value={this.state.width}
-            onChange={this.handleChange}
+            value={this.props.width}
+            onChange={this.props.handleChange}
             margin="normal"
           />
           <TextField
+            error={Number(this.props.height) <= 10}
             id="height"
             label="height"
             name='height'
-            value={this.state.height}
-            onChange={this.handleChange}
+            value={this.props.height}
+            onChange={this.props.handleChange}
             margin="normal"
           />
           <input
@@ -81,7 +75,7 @@ class Category extends React.Component {
             name='without'
             value='without effects'
             id='without'
-            onClick={this.handleClick}
+            onClick={this.props.handleClick}
           />
           <label htmlFor="without">
             <Button component="span" className={classes.button}>
@@ -94,7 +88,7 @@ class Category extends React.Component {
             name='sepia'
             value='sepia'
             id='sepia'
-            onClick={this.handleClick}
+            onClick={this.props.handleClick}
           />
           <label htmlFor="sepia">
             <Button component="span" className={classes.button}>
@@ -107,7 +101,7 @@ class Category extends React.Component {
             name='grayscale'
             value='grayscale'
             id='grayscale'
-            onClick={this.handleClick}
+            onClick={this.props.handleClick}
           />
           <label htmlFor="grayscale">
             <Button component="span" className={classes.button}>
@@ -124,4 +118,3 @@ class Category extends React.Component {
 }
 
 export default withStyles(styles)(Category);
-// export default Category;
