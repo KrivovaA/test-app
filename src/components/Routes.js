@@ -3,23 +3,40 @@ import {
   BrowserRouter as Router,
   Route
 } from 'react-router-dom';
-import { hot } from 'react-hot-loader'
 
 import Main from './main/Main';
-import About from './about/About';
+import Category from './categories/Category';
 import Menu from './menu/Menu';
+import {connect} from 'react-redux';
 
-const Routes = () => (
+const Routes = (props) => (
   <Router>
     <div>
-      <Menu />
+      <Menu categories={props.categories} />
 
       <hr />
 
       <Route exact path="/" component={Main} />
-      <Route path="/about" component={About} />
+      {props.categories.map((category) => {
+        return (
+          <Route
+            key={`route-${category}`}
+            path={`/${category}`}
+            render={props => {
+              return <Category category={category} />
+            }}
+          />
+        );
+      })}
     </div>
   </Router>
 );
 
-export default hot(module)(Routes)
+const mapStateToProps = state => {
+  return {
+    categories: state.main.categories
+  }
+};
+
+export default connect(mapStateToProps)(Routes);
+

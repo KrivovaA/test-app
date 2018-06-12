@@ -3,15 +3,20 @@ import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader'
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
+import createSagaMiddleware from 'redux-saga';
 
 // import Main from './components/main/Main';
 import rootReducer from './reducers';
 import DevTools from './components/DevTools';
+import rootSaga from './sagas';
+import App from './components/AppContainer';
 
-import App from './components/App';
+const sagaMiddleware = createSagaMiddleware();
+const store = createStore(rootReducer,
+  compose(applyMiddleware(sagaMiddleware), DevTools.instrument()));
 
-const store = createStore(rootReducer, DevTools.instrument());
+sagaMiddleware.run(rootSaga);
 
 const render = Component => {
   ReactDOM.render(
@@ -30,10 +35,9 @@ render(App);
 
 // webpack Hot Module Replacement API
 if (module.hot) {
-  module.hot.accept('./components/App', () => {
+  module.hot.accept('./components/AppContainer', () => {
     render(App);
-    render(require('./components/App'));
+    render(require('./components/AppContainer'));
   })
 }
 
-// ReactDOM.render(<Main />, document.getElementById('app'));
