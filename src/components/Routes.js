@@ -3,31 +3,37 @@ import {
   BrowserRouter as Router,
   Route
 } from 'react-router-dom';
+import {connect} from 'react-redux';
 
 import Main from './main/Main';
 import Category from './categories/Category';
 import Menu from './menu/Menu';
-import {connect} from 'react-redux';
+
+import Grid from '@material-ui/core/Grid';
+
 
 const Routes = (props) => (
   <Router>
     <div>
-      <Menu categories={props.categories} />
-
-      <hr />
-
-      <Route exact path="/" component={Main} />
-      {props.categories.map((category) => {
-        return (
-          <Route
-            key={`route-${category}`}
-            path={`/${category}`}
-            render={props => {
-              return <Category category={category} />
-            }}
-          />
-        );
-      })}
+      <Grid container >
+        <Grid item md={1}>
+          <Menu categories={props.categories} />
+        </Grid>
+        <Grid item md={7}>
+          <Route exact path="/" component={Main} />
+          {props.categories.map((category) => {
+            return (
+              <Route
+                key={`route-${category}`}
+                path={`/${category}`}
+                render={props => {
+                  return <Category category={category} />
+                }}
+              />
+            );
+          })}
+        </Grid>
+      </Grid>
     </div>
   </Router>
 );
